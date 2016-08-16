@@ -9,9 +9,10 @@
   <script src="bower_components/angular/angular.min.js"></script>
   <script src="js/hangman.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/hangmanController.js"></script>
 </head>
 
-<body class="full-background">
+<body ng-app="hangmanApp" class="full-background">
 <div class='container' id="container" ng-controller="HangmanController as hangmanController">
   <div id='poor-soul' class='row'>
     <pre class='col-md-6 col-md-offset-3'>
@@ -26,37 +27,39 @@ _________
 
     </pre>
     <div class='col-sm-12 col-md-6 col-md-offset-3 text-center'>
-      ? tries remaining
+      {{game.triesRemaining}} tries remaining
     </div>
   </div>
   <div class='row'>
     <div class='col-sm-12 text-center'>
-      <span class="label label-default">SOLVING:</span><br />
+      <span class="label label-default">SOLVING:</span><br/>
     </div>
     <div class='col-sm-12 text-center'>
-      <span class='wide'></span>
+      <span class='wide'>{{game.completedWord}}</span>
     </div>
   </div>
 
   <div class='row'>
     <div class='col-sm-12 text-center'>
-      <span class="label label-default">GUESSES: </span> <br />
+      <span class="label label-default">GUESSES:</span><br/>
     </div>
-    <div class='col-sm-12 text-center' id='guesses'>
+    <div ng-repeat="guess in game.guesses" class='col-sm-1 text-center' id='guesses'>
+        - {{guess}}
     </div>
   </div>
 
   <div class='row'>
     <div class='col-sm-12 text-center'>
       <span class="label label-default">INPUT:</span>
+      {{guess}}
     </div>
     <div class="col-sm-12 text-center">
-      <input type='text' size='1' id='guess' />
+      <input  ng-model="game.input" ng-change="hangmanController.oneLetterGuess(game.input)" type='text' size='1' id='guess' autofocus/>
     </div>
   </div>
   <div class='row' id='statuses'>
-    <div class='col-sm-1 table small-font'>Win status:
-      <span class='glyphicon'></span>
+    <div class='col-sm-1 table small-font'>Win status:{{game.gameWon}}
+      <span ng-if="game.gameWon === true" class="glyphicon glyphicon-thumbs-up"></span>
     </div>
   </div>
 </div>
